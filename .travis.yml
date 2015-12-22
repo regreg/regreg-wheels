@@ -1,0 +1,46 @@
+language:
+- objective-c
+env:
+  global:
+  - BUILD_COMMIT='latest-tag'  # comment out to build version in submodule
+  - REPO_DIR=regreg
+  matrix:
+  - VERSION=2.7.10 NUMPY_VERSION=1.6.2 # tune to taste
+  - VERSION=3.3.5 NUMPY_VERSION=1.7.1
+  - VERSION=3.4.3 NUMPY_VERSION=1.7.1
+  - VERSION=3.5.0 NUMPY_VERSION=1.7.1
+install:
+  - source terryfy/travis_tools.sh
+  - get_python_environment macpython $VERSION venv
+  # Update to latest pip, wheel package for Python 3.5
+  - pip install -U pip wheel
+  - pip install delocate numpy==$NUMPY_VERSION
+  - if [ -n "$BUILD_COMMIT" ]; then
+        checkout_commit $REPO_DIR $BUILD_COMMIT;
+    fi
+  - cd regreg
+  - python setup.py bdist_wheel
+  - delocate-listdeps dist/*.whl # lists library dependencies
+  - delocate-wheel dist/*.whl # copies library dependencies into wheel
+  - delocate-addplat --rm-orig -x 10_9 -x 10_10 dist/*.whl
+  - pip install dist/*.whl
+  - cd ..
+script:
+  # install dependencies for tests e.g - pip install nose
+  - mkdir tmp_for_test
+  - cd tmp_for_test
+  # No figure windows for mpl; quote to hide : from travis-ci yaml parsing
+  - 'echo "backend : agg" > matplotlibrc'
+  # Run the tests
+  - nosetests --with-doctest --verbose regreg
+  - cd ..
+before_deploy:
+  - cd $REPO_DIR/dist
+deploy:
+  provider: cloudfiles
+  username: travis-worker
+  api_key:
+    secure: "cYIZ2QTeke3fgORlc0q+oBKgLMb1AF3aKq74oKNxBs//BVkoKyjqXsIP6cHuvodiDxF6O1T5E/EyA3PnPOuTr9UzvriVkn7Ymw3FbsR6e1CYD/8YZuEx4urhWpFTcEloIZj3PVG2c80Sv0pPaNa9pXeHNA1VdNHUn4LrHHrIBj2XoJIPNkA21edCk+DDo1FaJJcT2Pkqj1bBJd/5FOPrMXAil3nfzxfMEHC39P1peQqMqqprnUOWO8XvsQ/IuVWO7kp2oEdaaI3fz5KbZ/b++dsIrOC7p0LAoQQLPhMp2geJpDp/lP+shhPQTMSYm9LE3JeFi6Oh6XNxSVxjrK9pfjxXY+YL6jYV9ilRB5ggiEYFS1BMdN4vWRrxdl5dkLN8KmVM2MmM5OjCS4/4Bgai9t/GiOGyOLZtOrkDjx6ZWDBtOVBdbd9k5Uq794x+2X2q4rrUmtXhX1fF6Q2qO1wi6HzQo53i2HvcNnLUaErQYuh/U+GpK85JU98iwWCWhFj4Kp8QQXKp4VjLnxEOsR5SJK7pMv4F/MH9Svz9XVV1RtI18xyvp0Qg/yZLYw21KFLQRQdsObPPCJ+2xDxOeOU7yAlWK4u8laMyAMOw6rPNT+YTuGHO/jbmGrjZfEGsee4+wBp8Gcq0lw09vhQ1YMQ/NSzvG/z6710PKHWzjvyZQR0="
+  region: ORD
+  container: wheels
+  skip_cleanup: true
