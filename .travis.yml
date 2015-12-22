@@ -30,6 +30,8 @@ install:
   - cd ..
 script:
   # install dependencies for tests e.g - pip install nose
+  - pip install nose
+  # Prepare test run
   - mkdir tmp_for_test
   - cd tmp_for_test
   # No figure windows for mpl; quote to hide : from travis-ci yaml parsing
