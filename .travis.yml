@@ -12,9 +12,12 @@ env:
 install:
   - source terryfy/travis_tools.sh
   - get_python_environment macpython $VERSION venv
+  - pip install delocate
   # Update to latest pip, wheel package for Python 3.5
   - pip install -U pip wheel
-  - pip install delocate numpy==$NUMPY_VERSION
+  # Allow nipy wheelhouse for Python 3.5 wheel
+  - pip install -f $NIPY_WHEELHOUSE numpy==$NUMPY_VERSION
+  - pip install cython scipy
   - if [ -n "$BUILD_COMMIT" ]; then
         checkout_commit $REPO_DIR $BUILD_COMMIT;
     fi
