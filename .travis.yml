@@ -43,10 +43,12 @@ matrix:
     - os: linux
       env:
         - MB_PYTHON_VERSION=3.4
+        - NP_TEST_DEP=numpy==1.8.2
     - os: linux
       env:
         - MB_PYTHON_VERSION=3.4
         - PLAT=i686
+        - NP_TEST_DEP=numpy==1.8.2
     - os: linux
       env:
         - MB_PYTHON_VERSION=3.5
