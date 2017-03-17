@@ -1,51 +1,113 @@
-language:
-- objective-c
 env:
   global:
-  - BUILD_COMMIT='latest-tag'  # comment out to build version in submodule
-  - REPO_DIR=regreg
-  matrix:
-  - VERSION=2.7.10 NUMPY_VERSION=1.6.2 # tune to taste
-  - VERSION=3.3.5 NUMPY_VERSION=1.7.1
-  - VERSION=3.4.3 NUMPY_VERSION=1.7.1
-  - VERSION=3.5.0 NUMPY_VERSION=1.7.1
+      - REPO_DIR="regreg"
+      - BUILD_COMMIT=master
+      - PLAT=x86_64
+      - UNICODE_WIDTH=32
+      - NP_BUILD_DEP="numpy==1.7.1"
+      - NP_TEST_DEP="numpy==1.7.1"
+      - WHEELHOUSE_UPLOADER_USERNAME=travis-worker
+      # Following generated with
+      # travis encrypt -r scikit-image/scikit-image-wheels WHEELHOUSE_UPLOADER_SECRET=travis encrypt -r scikit-image/scikit-image-wheels WHEELHOUSE_UPLOADER_SECRET=<the api key>
+      - secure:
+          "RSqCe7O5pOswP+W4iMC3/yWEAWhnFKAo6YoomqSQETx1ZWnP1RTO0cKHE9gIQrfB3y60N/3ZnJmpJfHQlt0JckxOiOK/NDabVkmAsgR2GGNILyq0OrFZWkRwdt7eqOU8H9eZVVQHe77yuZUK/Ui7btb1Bze3aQu99ZETjfXWoAI="
+
+language: python
+# Default Python version is usually 2.7
+python: 3.5
+sudo: required
+dist: trusty
+services: docker
+
+matrix:
+  exclude:
+      # Exclude the default Python 3.5 build
+      - python: 3.5
+  include:
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=2.7
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=2.7
+        - UNICODE_WIDTH=16
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=2.7
+        - PLAT=i686
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=2.7
+        - PLAT=i686
+        - UNICODE_WIDTH=16
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.4
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.4
+        - PLAT=i686
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.5
+        - NP_BUILD_DEP=numpy==1.9.3
+        - NP_TEST_DEP=numpy==1.9.3
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.5
+        - PLAT=i686
+        - NP_BUILD_DEP=numpy==1.9.3
+        - NP_TEST_DEP=numpy==1.9.3
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.6
+        - NP_BUILD_DEP=numpy==1.11.3
+        - NP_TEST_DEP=numpy==1.11.3
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.6
+        - PLAT=i686
+        - NP_BUILD_DEP=numpy==1.11.3
+        - NP_TEST_DEP=numpy==1.11.3
+    - os: osx
+      language: generic
+      env: MB_PYTHON_VERSION=2.7
+    - os: osx
+      language: generic
+      env:
+        - MB_PYTHON_VERSION=3.4
+    - os: osx
+      language: generic
+      env:
+        - MB_PYTHON_VERSION=3.5
+        - NP_BUILD_DEP=numpy==1.9.3
+        - NP_TEST_DEP=numpy==1.9.3
+    - os: osx
+      language: generic
+      env:
+        - MB_PYTHON_VERSION=3.6
+        - NP_BUILD_DEP=numpy==1.11.3
+        - NP_TEST_DEP=numpy==1.11.3
+
+before_install:
+    - BUILD_DEPENDS="$NP_BUILD_DEP Cython"
+    - TEST_DEPENDS="$NP_TEST_DEP nose"
+    - source multibuild/common_utils.sh
+    - source multibuild/travis_steps.sh
+    - before_install
+
 install:
-  - source terryfy/travis_tools.sh
-  - get_python_environment macpython $VERSION venv
-  - pip install delocate
-  # Update to latest pip, wheel package for Python 3.5
-  - pip install -U pip wheel
-  # Allow nipy wheelhouse for Python 3.5 wheel
-  - pip install -f $NIPY_WHEELHOUSE numpy==$NUMPY_VERSION
-  - pip install cython scipy
-  - if [ -n "$BUILD_COMMIT" ]; then
-        checkout_commit $REPO_DIR $BUILD_COMMIT;
-    fi
-  - cd regreg
-  - python setup_egg.py bdist_wheel
-  - delocate-listdeps dist/*.whl # lists library dependencies
-  - delocate-wheel dist/*.whl # copies library dependencies into wheel
-  - delocate-addplat --rm-orig -x 10_9 -x 10_10 dist/*.whl
-  - pip install dist/*.whl
-  - cd ..
+    # Maybe get and clean and patch source
+    - clean_code $REPO_DIR $BUILD_COMMIT
+    - build_wheel $REPO_DIR $PLAT
+
 script:
-  # install dependencies for tests e.g - pip install nose
-  - pip install nose
-  # Prepare test run
-  - mkdir tmp_for_test
-  - cd tmp_for_test
-  # No figure windows for mpl; quote to hide : from travis-ci yaml parsing
-  - 'echo "backend : agg" > matplotlibrc'
-  # Run the tests
-  - nosetests --with-doctest --verbose regreg
-  - cd ..
-before_deploy:
-  - cd $REPO_DIR/dist
-deploy:
-  provider: cloudfiles
-  username: travis-worker
-  api_key:
-    secure: "cYIZ2QTeke3fgORlc0q+oBKgLMb1AF3aKq74oKNxBs//BVkoKyjqXsIP6cHuvodiDxF6O1T5E/EyA3PnPOuTr9UzvriVkn7Ymw3FbsR6e1CYD/8YZuEx4urhWpFTcEloIZj3PVG2c80Sv0pPaNa9pXeHNA1VdNHUn4LrHHrIBj2XoJIPNkA21edCk+DDo1FaJJcT2Pkqj1bBJd/5FOPrMXAil3nfzxfMEHC39P1peQqMqqprnUOWO8XvsQ/IuVWO7kp2oEdaaI3fz5KbZ/b++dsIrOC7p0LAoQQLPhMp2geJpDp/lP+shhPQTMSYm9LE3JeFi6Oh6XNxSVxjrK9pfjxXY+YL6jYV9ilRB5ggiEYFS1BMdN4vWRrxdl5dkLN8KmVM2MmM5OjCS4/4Bgai9t/GiOGyOLZtOrkDjx6ZWDBtOVBdbd9k5Uq794x+2X2q4rrUmtXhX1fF6Q2qO1wi6HzQo53i2HvcNnLUaErQYuh/U+GpK85JU98iwWCWhFj4Kp8QQXKp4VjLnxEOsR5SJK7pMv4F/MH9Svz9XVV1RtI18xyvp0Qg/yZLYw21KFLQRQdsObPPCJ+2xDxOeOU7yAlWK4u8laMyAMOw6rPNT+YTuGHO/jbmGrjZfEGsee4+wBp8Gcq0lw09vhQ1YMQ/NSzvG/z6710PKHWzjvyZQR0="
-  region: ORD
-  container: wheels
-  skip_cleanup: true
+    - install_run $PLAT
+
+after_success:
+    # Upload wheels to Rackspace container
+    - pip install wheelhouse-uploader
+    - python -m wheelhouse_uploader upload --local-folder
+          ${TRAVIS_BUILD_DIR}/wheelhouse/
+          --no-update-index
+          wheels
