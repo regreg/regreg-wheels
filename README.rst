@@ -60,7 +60,7 @@ Keeping the old build logs helps us keep track of previous problems and
 successful builds.
 
 Which regreg commit does the repository build?
-==================================================
+==============================================
 
 The ``regreg-wheels`` repository will build the commit specified in the
 ``BUILD_COMMIT`` at the top of the ``.travis.yml`` and ``appveyor.yml`` files.
@@ -90,7 +90,7 @@ You will typically have a directory on your machine where you store wheels,
 called a `wheelhouse`.   The typical call for `wheel-uploader` would then
 be something like::
 
-    VERSION=0.4.0
+    VERSION=0.1.0
     CDN_URL=https://3f23b170c54c2533c070-1c8a9b3114517dc5fe17b7c3f8c63a43.ssl.cf2.rackcdn.com
     wheel-uploader -r warehouse -u $CDN_URL -s -v -w ~/wheelhouse -t macosx regreg $VERSION
     wheel-uploader -r warehouse -u $CDN_URL -s -v -w ~/wheelhouse -t manylinux1 regreg $VERSION
@@ -108,7 +108,7 @@ where:
   ``~/wheelhouse``.
 
 ``regreg`` is the root name of the wheel(s) to download / upload, and
-``0.4.0`` is the version to download / upload.
+``0.1.0`` is the version to download / upload.
 
 In order to use the Warehouse PyPI server, you will need something like this
 in your ``~/.pypirc`` file::
@@ -128,8 +128,8 @@ in your ``~/.pypirc`` file::
     password: your_password
 
 So, in this case, ``wheel-uploader`` will download all wheels starting with
-``regreg-0.4.0-`` from http://wheels.scipy.org to ``~/wheelhouse``,
-then upload them to PyPI.
+``regreg-0.1.0-`` from http://wheels.scipy.org to ``~/wheelhouse``, then
+upload them to PyPI.
 
 Of course, you will need permissions to upload to PyPI, for this to work.
 
