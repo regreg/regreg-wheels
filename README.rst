@@ -92,14 +92,12 @@ be something like::
 
     VERSION=0.1.0
     CDN_URL=https://3f23b170c54c2533c070-1c8a9b3114517dc5fe17b7c3f8c63a43.ssl.cf2.rackcdn.com
-    wheel-uploader -r warehouse -u $CDN_URL -s -v -w ~/wheelhouse -t macosx regreg $VERSION
-    wheel-uploader -r warehouse -u $CDN_URL -s -v -w ~/wheelhouse -t manylinux1 regreg $VERSION
-    wheel-uploader -r warehouse -u $CDN_URL -s -v -w ~/wheelhouse -t win regreg $VERSION
+    wheel-uploader -u $CDN_URL -s -v -w ~/wheelhouse -t macosx regreg $VERSION
+    wheel-uploader -u $CDN_URL -s -v -w ~/wheelhouse -t manylinux1 regreg $VERSION
+    wheel-uploader -u $CDN_URL -s -v -w ~/wheelhouse -t win regreg $VERSION
 
 where:
 
-* ``-r warehouse`` uses the upcoming Warehouse PyPI server (it is more
-  reliable than the current PyPI service for uploads);
 * ``-u`` gives the URL from which to fetch the wheels, here the https address,
   for some extra security;
 * ``-s`` causes twine to sign the wheels with your GPG key;
@@ -116,16 +114,10 @@ in your ``~/.pypirc`` file::
     [distutils]
     index-servers =
         pypi
-        warehouse
 
     [pypi]
     username:your_user_name
     password:your_password
-
-    [warehouse]
-    repository: https://upload.pypi.io/legacy/
-    username: your_user_name
-    password: your_password
 
 So, in this case, ``wheel-uploader`` will download all wheels starting with
 ``regreg-0.1.0-`` from http://wheels.scipy.org to ``~/wheelhouse``, then
