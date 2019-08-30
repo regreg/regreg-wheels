@@ -77,8 +77,6 @@ matrix:
       env:
         - MB_PYTHON_VERSION=3.7
         - PLAT=i686
-        - NP_BUILD_DEP=numpy==1.11.3
-        - NP_TEST_DEP=numpy==1.11.3
     - os: osx
       language: generic
       env: MB_PYTHON_VERSION=2.7
@@ -102,8 +100,6 @@ matrix:
       language: generic
       env:
         - MB_PYTHON_VERSION=3.7
-        - NP_BUILD_DEP=numpy==1.11.3
-        - NP_TEST_DEP=numpy==1.11.3
 
 before_install:
     - if [ "$TRAVIS_BRANCH" == "daily" ]; then
