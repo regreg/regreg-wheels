@@ -14,13 +14,9 @@ environment:
       BUILD_COMMIT: master
       NP_BUILD_DEP: "1.10.4"
       NP_TEST_DEP: "1.10.4"
-      - WHEELHOUSE_UPLOADER_USERNAME=travis-worker
-      # Following generated with
-      # travis encrypt -r scikit-image/scikit-image-wheels WHEELHOUSE_UPLOADER_SECRET=<the api key>
-      - secure:
+      WHEELHOUSE_UPLOADER_USERNAME=travis-worker
+        secure:
           "b5W3mu7Weluq+FgmBhm1+0wDsZwJ2vbOYwmcLFShQGHAzm1cLaXOC0s6jW92HCJBO3vf/uT0XUiGFM8E5frX73uxHfNlcbOf+86WKbsGBDNEtR1IQkWz0+9oOvwOv+zRis9eH6nvwYQD3rScLcKeUaQx+S9pkptfXTu3Kkbf7y0+nkUOVf7ES61AIhqKOklztAiNfjHDXQhzD44/cjwHtApn8pjeZHoXqiSv/Op1T2E1wau43P7WogCiI1pBb0WxjIZqjpiQLa9FBRBo3CVQYsrhe5ORSInFszfKk8hNHpA9K6g70XReKciN1TV4BbrV92q223u8csqAhQGdcI4qQ+EEzHfpxQ+dVqU6qxgvcH6G0M/PGBTehkJpkwzBvY/EAQjXGcRsBMb8S6XZaV6nSXhCwpRrCiTSqQB8Gkb7tn8qFvGKUBhe3itU8ZpcFpBKPA4NmdwKreFkv8kXkx5GSCS1QzmPFDAVrcR6wQNuEpck1wLe7ui1j1X0y8zhdHt0Nvcwid7xDFTQTFPS5CHCnyRWv2DQpxFzS99DOuByywMTdO0FRFmZHSKmJoEXT6Gwk/Vo7quYRVXds/uyygWkaPucq1i9bCCbViDZImkyonqTM7EIPsasD0iZb1Udkz6LqP5FwKAe+1InBA1LCD9HbSPboRm3hGErGeKX5MEB3a8="
-      # Commit when running from daily branch
-      - DAILY_COMMIT=master
 
     matrix:
     - PYTHON: C:\Python37
