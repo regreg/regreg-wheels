@@ -78,7 +78,7 @@ test_script:
   - mkdir tmp
   - cd tmp
   - pip install numpy==%NP_TEST_DEP% nose
-  - nosetests ..\regreg
+  - nosetests -v regreg
   - cd ..
 
 after_test:
