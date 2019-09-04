@@ -63,6 +63,7 @@ install:
 
 build_script:
   # Build and install the wheel
+  - pip install -r requirements.txt
   - git fetch origin
   - git checkout %BUILD_COMMIT%
   - python setup.py bdist_wheel
