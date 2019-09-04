@@ -11,11 +11,7 @@ os: Visual Studio 2015
 environment:
     global:
       # Remember to edit .travis.yml too
-      BUILD_COMMIT: v1.0.3
-      WHEELHOUSE_UPLOADER_USERNAME: travis-worker
-      WHEELHOUSE_UPLOADER_SECRET:
-        secure:
-            9s0gdDGnNnTt7hvyNpn0/ZzOMGPdwPp2SewFTfGzYk7uI+rdAN9rFq2D1gAP4NQh
+      BUILD_COMMIT: master
       NP_BUILD_DEP: "1.10.4"
       NP_TEST_DEP: "1.10.4"
 
