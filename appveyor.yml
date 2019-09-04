@@ -63,6 +63,7 @@ install:
 
 build_script:
   # Build and install the wheel
+  - cd regreg
   - pip install -r requirements.txt
   - git fetch origin
   - git checkout %BUILD_COMMIT%
@@ -73,7 +74,6 @@ build_script:
           appveyor PushArtifact $_.FullName
           pip install $_.FullName
       }
-  - cd dist
   - pip install --pre --no-index -f . regreg
   - cd ..
 
