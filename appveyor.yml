@@ -60,7 +60,7 @@ install:
   - pip install wheel==0.26
   - git submodule update --init
   # Dependencies for package
-  - pip install numpy==%NP_BUILD_DEP% scipy=%SCIPY_BUILD_DEP% Cython
+  - pip install numpy==%NP_BUILD_DEP% scipy==%SCIPY_BUILD_DEP% Cython
 
 build_script:
   # Build and install the wheel
