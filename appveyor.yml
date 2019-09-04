@@ -14,6 +14,7 @@ environment:
       BUILD_COMMIT: master
       NP_BUILD_DEP: "1.10.4"
       NP_TEST_DEP: "1.10.4"
+      SCIPY_BUILD_DEP: "1.3.1"
       WHEELHOUSE_UPLOADER_USERNAME: travis-worker
       WHEELHOUSE_UPLOADER_SECRET:
         secure:
@@ -59,12 +60,11 @@ install:
   - pip install wheel==0.26
   - git submodule update --init
   # Dependencies for package
-  - pip install numpy==%NP_BUILD_DEP% Cython
+  - pip install numpy==%NP_BUILD_DEP% scipy Cython
 
 build_script:
   # Build and install the wheel
   - cd regreg
-  - pip install -r requirements.txt
   - git fetch origin
   - git checkout %BUILD_COMMIT%
   - python setup.py bdist_wheel
