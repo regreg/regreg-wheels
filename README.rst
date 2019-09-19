@@ -6,13 +6,13 @@ We automate wheel building using this custom github repository that builds on
 the travis-ci OSX machines, travis-ci Linux machines, and the Appveyor VMs.
 
 The travis-ci interface for the builds is
-https://travis-ci.org/MacPython/regreg-wheels
+https://travis-ci.org/regreg/regreg-wheels
 
 Appveyor interface at
 https://ci.appveyor.com/project/matthew-brett/regreg-wheels
 
 The driving github repository is
-https://github.com/MacPython/regreg-wheels
+https://github.com/regreg/regreg-wheels
 
 How it works
 ============
@@ -75,7 +75,7 @@ content delivery network.  It can take up to 15 minutes for the new wheel file
 to get updated into the container at http://wheels.scipy.org.
 
 The same contents appear at
-https://3f23b170c54c2533c070-1c8a9b3114517dc5fe17b7c3f8c63a43.ssl.cf2.rackcdn.com;
+http://8b8c47f30575e674b56d-47bd50c35cd79bd838daf386af554a83.r59.cf2.rackcdn.com
 you might prefer this address because it is https.
 
 When the wheels are updated, you can download them to your machine manually,
@@ -90,8 +90,8 @@ You will typically have a directory on your machine where you store wheels,
 called a `wheelhouse`.   The typical call for `wheel-uploader` would then
 be something like::
 
-    VERSION=0.1.0
-    CDN_URL=https://3f23b170c54c2533c070-1c8a9b3114517dc5fe17b7c3f8c63a43.ssl.cf2.rackcdn.com
+    VERSION=0.1.1
+    CDN_URL=http://8b8c47f30575e674b56d-47bd50c35cd79bd838daf386af554a83.r59.cf2.rackcdn.com/
     wheel-uploader -u $CDN_URL -s -v -w ~/wheelhouse -t macosx regreg $VERSION
     wheel-uploader -u $CDN_URL -s -v -w ~/wheelhouse -t manylinux1 regreg $VERSION
     wheel-uploader -u $CDN_URL -s -v -w ~/wheelhouse -t win regreg $VERSION
