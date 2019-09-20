@@ -17,8 +17,7 @@ environment:
       SCIPY_BUILD_DEP: "1.0.1"
       WHEELHOUSE_UPLOADER_USERNAME: travis-worker
       WHEELHOUSE_UPLOADER_SECRET:
-        secure:
-           9s0gdDGnNnTt7hvyNpn0/ZzOMGPdwPp2SewFTfGzYk7uI+rdAN9rFq2D1gAP4NQh
+        secure: 0NQ6xIZEMKxRYG8+gOi5c8bRHISm4sT4ZEbogYRn/S+DAk64s6s+LSGGhcfDSb1F
 
     matrix:
     - PYTHON: C:\Python37
