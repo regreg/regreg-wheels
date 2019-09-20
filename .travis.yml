@@ -113,7 +113,7 @@ before_install:
           CONTAINER=wheels;
           UPLOAD_ARGS="--no-update-index";
       fi
-    - BUILD_DEPENDS="$NP_BUILD_DEP Cython"
+    - BUILD_DEPENDS="$NP_BUILD_DEP Cython>=0.28"
     - TEST_DEPENDS="$NP_TEST_DEP nose"
     - source multibuild/common_utils.sh
     - source multibuild/travis_steps.sh
