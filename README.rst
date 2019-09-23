@@ -90,7 +90,7 @@ You will typically have a directory on your machine where you store wheels,
 called a `wheelhouse`.   The typical call for `wheel-uploader` would then
 be something like::
 
-    VERSION=0.1.1
+    VERSION=0.1.3
     CDN_URL=http://8b8c47f30575e674b56d-47bd50c35cd79bd838daf386af554a83.r59.cf2.rackcdn.com/
     wheel-uploader -u $CDN_URL -s -v -w ~/wheelhouse -t macosx regreg $VERSION
     wheel-uploader -u $CDN_URL -s -v -w ~/wheelhouse -t manylinux1 regreg $VERSION
