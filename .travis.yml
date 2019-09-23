@@ -73,6 +73,12 @@ matrix:
         - PLAT=i686
         - NP_BUILD_DEP=numpy==1.11.3
         - NP_TEST_DEP=numpy==1.11.3
+    - os: linux
+      env:
+        - MB_PYTHON_VERSION=3.7
+        - NP_BUILD_DEP=numpy==1.15.0
+        - NP_TEST_DEP=numpy==1.15.0
+        - PLAT=i686
     - os: osx
       language: generic
       env: MB_PYTHON_VERSION=2.7
@@ -92,6 +98,12 @@ matrix:
         - MB_PYTHON_VERSION=3.6
         - NP_BUILD_DEP=numpy==1.11.3
         - NP_TEST_DEP=numpy==1.11.3
+    - os: osx
+      language: generic
+      env:
+        - MB_PYTHON_VERSION=3.7
+        - NP_BUILD_DEP=numpy==1.15.0
+        - NP_TEST_DEP=numpy==1.15.0
 
 before_install:
     - if [ "$TRAVIS_BRANCH" == "daily" ]; then
@@ -101,7 +113,7 @@ before_install:
           CONTAINER=wheels;
           UPLOAD_ARGS="--no-update-index";
       fi
-    - BUILD_DEPENDS="$NP_BUILD_DEP Cython"
+    - BUILD_DEPENDS="$NP_BUILD_DEP Cython>=0.28"
     - TEST_DEPENDS="$NP_TEST_DEP nose"
     - source multibuild/common_utils.sh
     - source multibuild/travis_steps.sh
