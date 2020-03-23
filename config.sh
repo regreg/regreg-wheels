@@ -13,3 +13,6 @@ function run_tests {
     echo "backend : agg" > matplotlibrc
     nosetests --verbose regreg
 }
+
+set -e
+export PS4='+(${BASH_SOURCE}:${LINENO}): ${FUNCNAME[0]:+${FUNCNAME[0]}(): }'
